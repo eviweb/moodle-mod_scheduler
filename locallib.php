@@ -364,4 +364,20 @@ function scheduler_has_teachers($context) {
     return count($teachers) > 0;
 }
 
+/**
+ * Fix error : You should really redirect before you start page output
+ *
+ * @param moodle_url|string $url A moodle_url to redirect to. Strings are not to be trusted!
+ * @param string $message The message to display to the user
+ * @param int $delay The delay before redirecting
+ * @throws moodle_exception
+ */
+function scheduler_redirect($url, $message='', $delay=-1) {
+    global $PAGE;
 
+    if ($PAGE->state) {
+        $PAGE = null;
+    }
+
+    redirect($url, $message, $delay);
+}

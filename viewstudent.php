@@ -96,7 +96,7 @@ if ($subpage == 'thisappointment') {
     $mform->set_data($mform->prepare_appointment_data($appointment));
 
     if ($mform->is_cancelled()) {
-        redirect($returnurl);
+        scheduler_redirect($returnurl, get_string('cancel'), 0);
     } else if ($formdata = $mform->get_data()) {
         $data = $mform->extract_appointment_data($formdata);
         if ($distribute && isset($formdata->distribute)) {
@@ -108,7 +108,7 @@ if ($subpage == 'thisappointment') {
             $appointment->set_data($data);
             $appointment->save();
         }
-        redirect($returnurl);
+        scheduler_redirect($returnurl, get_string('savechanges'), 0);
     } else {
         $mform->display();
     }

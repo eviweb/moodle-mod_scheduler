@@ -11,6 +11,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/scheduler/locallib.php');
+
 function scheduler_prepare_formdata(scheduler_slot $slot) {
 
     $data = $slot->get_data();
@@ -158,7 +160,7 @@ if ($action == 'addslot') {
     $mform = new scheduler_editslot_form($actionurl, $scheduler, $cm, $usergroups);
 
     if ($mform->is_cancelled()) {
-        redirect($returnurl);
+        scheduler_redirect($returnurl, get_string('cancel'), 0);
     } else if ($formdata = $mform->get_data()) {
         scheduler_save_slotform ($scheduler, $course, 0, $formdata);
         echo $output->action_message(get_string('oneslotadded', 'scheduler'));
@@ -185,7 +187,7 @@ if ($action == 'updateslot') {
     $mform->set_data($data);
 
     if ($mform->is_cancelled()) {
-        redirect($returnurl);
+        scheduler_redirect($returnurl, get_string('cancel'), 0);
     } else if ($formdata = $mform->get_data()) {
         scheduler_save_slotform ($scheduler, $course, $slotid, $formdata);
         echo $output->action_message(get_string('slotupdated', 'scheduler'));
@@ -212,7 +214,7 @@ if ($action == 'addsession') {
     $mform = new scheduler_addsession_form($actionurl, $scheduler, $cm, $usergroups);
 
     if ($mform->is_cancelled()) {
-        redirect($returnurl);
+        scheduler_redirect($returnurl, get_string('cancel'), 0);
     } else if ($formdata = $mform->get_data()) {
         scheduler_action_doaddsession($scheduler, $formdata);
     } else {
